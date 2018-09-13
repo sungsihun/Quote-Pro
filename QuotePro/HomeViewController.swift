@@ -10,16 +10,18 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, QuoteBuilderDelegate {
   
-  @IBOutlet weak var quoteView: QuoteView!
+//  @IBOutlet weak var quoteView: QuoteView!
   @IBOutlet weak var tb: UITableView!
   @IBOutlet weak var addButton: UIBarButtonItem!
   
   var quotes = [Quote]()
-
+  var currentImage: UIImage?
   
   override func viewDidLoad() {
       super.viewDidLoad()
-      quoteView.quoteViewLabel.text = "test"
+//      quoteView.quoteViewLabel.text = "test"
+//      let snapshot = quoteView.snapshotView(afterScreenUpdates: true)
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -61,14 +63,26 @@ class HomeViewController: UIViewController, UITableViewDataSource, QuoteBuilderD
 
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let destination = segue.destination as? QuoteBuilderViewController {
-      destination.delegate = self
+      if let destination = segue.destination as? QuoteBuilderViewController {
+        destination.delegate = self
+      }
+    if let index: IndexPath = tb.indexPathForSelectedRow {
+
+      if segue.identifier == "previewSegue" {
+        let previewVC = segue.destination as? PreviewViewController
+        previewVC?.previewImage = self.quotes[index.row].image
+      }
     }
+    
+    
+    
   }
   
   func saveQuote(quote: Quote) {
     self.quotes.append(quote)
   }
   
-
 }
+
+
+

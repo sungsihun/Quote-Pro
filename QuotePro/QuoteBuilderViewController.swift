@@ -14,6 +14,9 @@ protocol QuoteBuilderDelegate {
 
 class QuoteBuilderViewController: UIViewController {
 
+  @IBOutlet weak var quoteViewImageView: UIImageView!
+  @IBOutlet weak var quoteView: QuoteView!
+  
   var delegate: QuoteBuilderDelegate?
   var quoteText: String = ""
   var nameText: String = ""
@@ -26,8 +29,15 @@ class QuoteBuilderViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.quoteLabel.text = quoteText
+//    self.quoteLabel.text = quoteText
+    quoteView.quoteViewLabel.text = ""
+    getImage()
   }
+  
+//  override func viewDidAppear(_ animated: Bool) {
+//    let snapshot = quoteView.snapshotImage()
+//    self.imageView.image = snapshot
+//  }
 
   //MARK: Button Action
   
@@ -35,9 +45,9 @@ class QuoteBuilderViewController: UIViewController {
     getQuote {
       // When from background thread, UI needs to be updated on main_queue
       DispatchQueue.main.async {
-//        self.quoteLabel.text = "\"" + self.quoteText + "\"\n\n" + self.nameText
         self.quoteText = "\"" + self.quoteText + "\"\n\n" + self.nameText
-        self.quoteLabel.text = self.quoteText
+//        self.quoteLabel.text = self.quoteText
+        self.quoteView.quoteViewLabel.text = self.quoteText
       }
     }
   }
@@ -99,9 +109,10 @@ class QuoteBuilderViewController: UIViewController {
       let imageData:NSData = NSData(contentsOf: imageUrl)!
       DispatchQueue.main.async {
         let image = UIImage(data: imageData as Data)
-        self.image = image
-        self.imageView.image = image
-        self.imageView.contentMode = UIViewContentMode.scaleAspectFill
+//        self.image = image
+//        self.imageView.image = image
+        self.quoteView.quoteViewImageView.image = image
+//        self.imageView.contentMode = UIViewContentMode.scaleAspectFill
       }
     }
   }
@@ -114,13 +125,31 @@ class QuoteBuilderViewController: UIViewController {
   
   
   @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-    self.quote = Quote(name: self.nameText, quote: self.quoteText, image: self.image!)
+    let snapshot = quoteView.snapshotImage()
+  
+//    self.imageView.image = snapshot
+    self.quote = Quote(name: self.nameText, quote: self.quoteText, image: snapshot!)
     delegate!.saveQuote(quote: self.quote!)
     navigationController?.popViewController(animated: true)
   }
   
-  
 }
 
-
+public extension UIView {
+  public func snapshotImage() -> UIImage? {
+    UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
+    drawHierarchy(in: bounds, afterScreenUpdates: false)
+    let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return snapshotImage
+  }
+  
+  public func snapshotView() -> UIView? {
+    if let snapshotImage = snapshotImage() {
+      return UIImageView(image: snapshotImage)
+    } else {
+      return nil
+    }
+  }
+}
 
