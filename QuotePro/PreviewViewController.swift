@@ -9,26 +9,24 @@
 import UIKit
 
 class PreviewViewController: UIViewController {
-
-  @IBOutlet weak var previewImageView: UIImageView!
   
-  var previewImage: UIImage?
+    @IBOutlet weak var previewImageView: UIImageView!
   
-  override func viewDidLoad() {
+    var previewImage: UIImage?
+  
+    override func viewDidLoad() {
         super.viewDidLoad()
         previewImageView.image = previewImage
-//        previewImageView = UIImageView()
-        // Do any additional setup after loading the view.
+      
+        navigationItem.rightBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(addTapped))
     }
+  
+    @objc func addTapped() {
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let imageToShare = [self.previewImage!]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
-    */
 
 }

@@ -10,25 +10,25 @@ import UIKit
 
 class QuoteView: UIView {
 
-  @IBOutlet weak var quoteViewLabel: UILabel!
-  @IBOutlet weak var quoteViewImageView: UIImageView!
-  @IBOutlet var contentView: UIView!
+    @IBOutlet weak var quoteViewLabel: UILabel!
+    @IBOutlet weak var quoteViewImageView: UIImageView!
+    @IBOutlet var contentView: UIView!
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    setupWithQuote()
-  }
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      setupWithQuote()
+    }
   
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    setupWithQuote()
-  }
+    required init?(coder aDecoder: NSCoder) {
+      super.init(coder: aDecoder)
+      setupWithQuote()
+    }
   
-  private func setupWithQuote() {
-    Bundle.main.loadNibNamed("QuoteView", owner: self, options: nil)
-    addSubview(contentView)
-    contentView.frame = self.bounds
-    contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-  }
+    private func setupWithQuote() {
+      Bundle.main.loadNibNamed("QuoteView", owner: self, options: nil)
+      addSubview(contentView)
+      contentView.frame = self.bounds
+      contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    }
 
 }

@@ -10,35 +10,22 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, QuoteBuilderDelegate {
   
-//  @IBOutlet weak var quoteView: QuoteView!
-  @IBOutlet weak var tb: UITableView!
-  @IBOutlet weak var addButton: UIBarButtonItem!
-  
-  var quotes = [Quote]()
-  var currentImage: UIImage?
-  
-  override func viewDidLoad() {
-      super.viewDidLoad()
-//      quoteView.quoteViewLabel.text = "test"
-//      let snapshot = quoteView.snapshotView(afterScreenUpdates: true)
+    //  @IBOutlet weak var quoteView: QuoteView!
+    @IBOutlet weak var tb: UITableView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
     
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-      self.tb.reloadData()
-  }
-  
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    var quotes = [Quote]()
+    var currentImage: UIImage?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+      
     }
-    */
-  
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tb.reloadData()
+    }
+
   
     //MARK: TableView Data Source
   
@@ -60,27 +47,24 @@ class HomeViewController: UIViewController, UITableViewDataSource, QuoteBuilderD
       return cell
     }
   
-
+    // segue
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if let destination = segue.destination as? QuoteBuilderViewController {
-        destination.delegate = self
-      }
-    if let index: IndexPath = tb.indexPathForSelectedRow {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? QuoteBuilderViewController {
+          destination.delegate = self
+        }
+      if let index: IndexPath = tb.indexPathForSelectedRow {
 
-      if segue.identifier == "previewSegue" {
-        let previewVC = segue.destination as? PreviewViewController
-        previewVC?.previewImage = self.quotes[index.row].image
+        if segue.identifier == "previewSegue" {
+          let previewVC = segue.destination as? PreviewViewController
+          previewVC?.previewImage = self.quotes[index.row].image
+        }
       }
     }
-    
-    
-    
-  }
   
-  func saveQuote(quote: Quote) {
-    self.quotes.append(quote)
-  }
+    func saveQuote(quote: Quote) {
+      self.quotes.append(quote)
+    }
   
 }
 

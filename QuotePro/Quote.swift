@@ -9,13 +9,13 @@
 import UIKit
 
 class Quote: NSObject {
-  var name: String
-  var quote: String
-  var image: UIImage
+    var name: String
+    var quote: String
+    var image: UIImage
   
-  init?(name: String, quote: String, image: UIImage) {
-    self.name = name
-    self.quote = quote
-    self.image = image
-  }
+    init?(name: String, quote: String, image: UIImage) {
+      self.name = name
+      self.quote = quote
+      self.image = image
+    }
 }
